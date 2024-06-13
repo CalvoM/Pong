@@ -1,5 +1,6 @@
 #ifndef GAME_OBJECT_H
 #define GAME_OBJECT_H
+#include "Vector2D.hpp"
 #include <SDL2/SDL_render.h>
 #include <string>
 
@@ -41,8 +42,9 @@ class GameObject : public BaseGameObject {
     virtual void clean();
 
   protected:
-    int xpos;
-    int ypos;
+    Vector2D pos;
+    Vector2D velocity;
+    Vector2D acceleration;
     int width;
     int height;
     int current_frame;

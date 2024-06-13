@@ -2,9 +2,9 @@
 #include "../includes/Game.hpp"
 #include "../includes/TextureManager.hpp"
 GameObject::GameObject(const LoaderParams *loader_params)
-    : BaseGameObject(loader_params) {
-    this->xpos = loader_params->get_xpos();
-    this->ypos = loader_params->get_ypos();
+    : BaseGameObject(loader_params),
+      pos(loader_params->get_xpos(), loader_params->get_ypos()), velocity(0, 0),
+      acceleration(0, 0) {
     this->width = loader_params->get_width();
     this->height = loader_params->get_height();
     this->texture_id = loader_params->get_texture_id();
@@ -13,9 +13,12 @@ GameObject::GameObject(const LoaderParams *loader_params)
 }
 void GameObject::draw() {
     TextureManager::Instance()->drawFrame(
-        this->texture_id, this->xpos, this->ypos, this->width, this->height,
-        this->current_row, this->current_frame,
+        this->texture_id, (int)this->pos.getX(), (int)this->pos.getY(),
+        this->width, this->height, this->current_row, this->current_frame,
         TheGame::Instance()->get_renderer());
 }
-void GameObject::update() { this->xpos++; }
+void GameObject::update() {
+    this->velocity += this->acceleration;
+    this->pos += this->velocity;
+}
 void GameObject::clean() {}

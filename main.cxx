@@ -3,13 +3,15 @@
 #include <stdlib.h>
 
 int main(void) {
-  Game game;
-  if (!game.sdl_init("SDL Tutorial", 0, 0, 720, 1280)) {
-    std::cout << "SDL Initialization failed!" << std::endl;
-  }
-  while (game.is_running()) {
-    game.render();
-    game.handle_events();
-  }
-  return EXIT_SUCCESS;
+    if (!TheGame::Instance()->sdl_init("SDL Tutorial", 0, 0, 1200, 1920)) {
+        std::cout << "SDL Initialization failed!" << std::endl;
+    }
+    std::cout << "Running..." << std::endl;
+    while (TheGame::Instance()->is_running()) {
+        TheGame::Instance()->render();
+        TheGame::Instance()->update();
+        TheGame::Instance()->handle_events();
+        SDL_Delay(50);
+    }
+    return EXIT_SUCCESS;
 }

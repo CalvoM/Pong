@@ -10,4 +10,5 @@ check_memory: build
 	./check_memory.sh $(prog) $(valgrind_log)
 build:
 	g++ main.cxx $(CC_FLAGS) $(LD_FLAGS) -o $(prog)
-
+style:
+	find . -iname "*.hpp" -o -iname "*.cxx" | xargs clang-format -i

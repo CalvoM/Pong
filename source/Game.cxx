@@ -1,4 +1,5 @@
 #include "../includes/Game.hpp"
+#include "../includes/InputHandler.hpp"
 #include "../includes/Resources.hpp"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
@@ -37,34 +38,35 @@ bool Game::sdl_init(std::string title, int xpos, int ypos, int height,
 }
 
 void Game::handle_events() {
-    if (SDL_PollEvent(&this->event)) {
-        switch (this->event.type) {
-        case SDL_QUIT:
-            this->game_running = false;
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym) {
-            case SDLK_RIGHT:
-                this->game_running = true;
-                // this->current_frame =
-                //     int(((SDL_GetTicks() / 100) % sprite_sheet_count));
-                this->_time_counter++;
-                this->current_frame =
-                    this->_time_counter % this->sprite_sheet_count;
-                break;
-            case SDLK_LEFT:
-                this->_time_counter =
-                    this->_time_counter == 0 ? 0 : this->_time_counter -= 1;
-                this->current_frame =
-                    this->_time_counter % this->sprite_sheet_count;
-                break;
-            default:
-                break;
-            }
-        default:
-            this->game_running = true;
-        }
-    }
+    TheInputHandler::Instance()->update();
+    // if (SDL_PollEvent(&this->event)) {
+    //     switch (this->event.type) {
+    //     case SDL_QUIT:
+    //         this->game_running = false;
+    //         break;
+    //     case SDL_KEYDOWN:
+    //         switch (event.key.keysym.sym) {
+    //         case SDLK_RIGHT:
+    //             this->game_running = true;
+    //             // this->current_frame =
+    //             //     int(((SDL_GetTicks() / 100) % sprite_sheet_count));
+    //             this->_time_counter++;
+    //             this->current_frame =
+    //                 this->_time_counter % this->sprite_sheet_count;
+    //             break;
+    //         case SDLK_LEFT:
+    //             this->_time_counter =
+    //                 this->_time_counter == 0 ? 0 : this->_time_counter -= 1;
+    //             this->current_frame =
+    //                 this->_time_counter % this->sprite_sheet_count;
+    //             break;
+    //         default:
+    //             break;
+    //         }
+    //     default:
+    //         this->game_running = true;
+    //     }
+    // }
 }
 void Game::render() {
     SDL_RenderClear(mainRenderer);
@@ -85,6 +87,8 @@ void Game::draw() {
         game_objs[i]->draw();
     }
 }
+
+void Game::clean() { TheInputHandler::Instance()->clean(); }
 
 Game::~Game() {
 

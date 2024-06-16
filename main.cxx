@@ -9,7 +9,6 @@ int main(void) {
     if (!TheGame::Instance()->sdl_init("SDL Tutorial", 0, 0, 1200, 1920)) {
         std::cout << "SDL Initialization failed!" << std::endl;
     }
-    std::cout << "Running..." << std::endl;
     while (TheGame::Instance()->is_running()) {
         frame_start = SDL_GetTicks();
         TheGame::Instance()->render();

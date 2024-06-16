@@ -49,6 +49,8 @@ class Game {
         return _instance;
     }
     SDL_Renderer *get_renderer() const { return this->mainRenderer; }
+    void quit() { this->game_running = false; }
+    void clean();
     ~Game();
 };
 

@@ -2,6 +2,7 @@
 #define GAME_H_
 
 #include "Enemy.hpp"
+#include "GameStateMachine.hpp"
 #include "Player.hpp"
 #include "TextureManager.hpp"
 #include <SDL2/SDL.h>
@@ -11,7 +12,7 @@
 #include <string>
 #include <vector>
 
-enum class IMG_TYPE { PNG, JPG, WEBP, BITMAP, TIF, AVIF };
+enum class GameStateEnum { MENU = 0, PLAY = 1, GAMEOVER = 2 };
 class Game {
   private:
     SDL_Window *mainWindow = nullptr;
@@ -33,6 +34,8 @@ class Game {
     GameObject *enemy2;
     GameObject *enemy3;
     static Game *_instance;
+    GameStateMachine *game_state_machine;
+    GameStateEnum current_game_state;
 
   public:
     bool sdl_init(std::string title, int xpos, int ypos, int height, int width);

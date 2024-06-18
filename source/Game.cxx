@@ -1,8 +1,11 @@
 #include "../includes/Game.hpp"
 #include "../includes/InputHandler.hpp"
+#include "../includes/MenuState.hpp"
+#include "../includes/PlayState.hpp"
 #include "../includes/Resources.hpp"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_scancode.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
@@ -34,11 +37,17 @@ bool Game::sdl_init(std::string title, int xpos, int ypos, int height,
     this->game_objs.push_back(this->player_obj);
     this->game_objs.push_back(this->enemy1);
     this->game_running = true;
+    this->current_game_state = GameStateEnum::MENU;
+    this->game_state_machine = new GameStateMachine();
+    this->game_state_machine->change_state(new MenuState());
     return true;
 }
 
 void Game::handle_events() {
     TheInputHandler::Instance()->update();
+    if (InputHandler::Instance()->is_key_down(SDL_SCANCODE_RETURN)) {
+        this->game_state_machine->change_state(new PlayState());
+    }
     // if (SDL_PollEvent(&this->event)) {
     //     switch (this->event.type) {
     //     case SDL_QUIT:
@@ -70,16 +79,11 @@ void Game::handle_events() {
 }
 void Game::render() {
     SDL_RenderClear(mainRenderer);
-    this->draw();
+    this->game_state_machine->render();
     SDL_RenderPresent(this->mainRenderer);
 }
 
-void Game::update() {
-    for (std::vector<GameObject *>::size_type i = 0; i != game_objs.size();
-         i++) {
-        game_objs[i]->update();
-    }
-}
+void Game::update() { this->game_state_machine->update(); }
 
 void Game::draw() {
     for (std::vector<GameObject *>::size_type i = 0; i != game_objs.size();

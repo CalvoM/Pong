@@ -1,4 +1,5 @@
 #include "../includes/GameStateMachine.hpp"
+#include <iostream>
 
 void GameStateMachine::push_state(GameState *state) {
     this->game_states.push_back(state);
@@ -23,9 +24,9 @@ void GameStateMachine::change_state(GameState *state) {
             delete this->game_states.back();
             this->game_states.pop_back();
         }
-        this->game_states.push_back(state);
-        this->game_states.back()->on_enter();
     }
+    this->game_states.push_back(state);
+    this->game_states.back()->on_enter();
 }
 
 void GameStateMachine::update() {

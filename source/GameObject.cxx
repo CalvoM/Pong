@@ -1,6 +1,7 @@
 #include "../includes/GameObject.hpp"
 #include "../includes/Game.hpp"
 #include "../includes/TextureManager.hpp"
+#include <iostream>
 GameObject::GameObject(const LoaderParams *loader_params)
     : BaseGameObject(loader_params),
       pos(loader_params->get_xpos(), loader_params->get_ypos()), velocity(0, 0),

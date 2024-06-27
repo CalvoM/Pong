@@ -19,23 +19,25 @@ bool Game::sdl_init(std::string title, int xpos, int ypos, int height,
         return false;
     }
     this->mainWindow = SDL_CreateWindow(title.c_str(), xpos, ypos, width,
-                                        height, SDL_WINDOW_MAXIMIZED);
+                                        height, SDL_WINDOW_SHOWN);
     if (this->mainWindow == nullptr)
         return false;
     this->mainRenderer = SDL_CreateRenderer(this->mainWindow, -1, 0);
     if (this->mainRenderer == nullptr)
         return false;
-    TheTextureManager::Instance()->load(LOAD_RESOURCE(running.png), "animate",
-                                        this->mainRenderer);
-    this->game_obj = new Player(new LoaderParams(
-        0, 0, this->sprite_width, this->sprite_height, "animate"));
-    this->player_obj = new Player(new LoaderParams(
-        600, 300, this->sprite_width, this->sprite_height, "animate"));
-    this->enemy1 = new Enemy(new LoaderParams(600, 600, this->sprite_width,
-                                              this->sprite_height, "animate"));
-    this->game_objs.push_back(this->game_obj);
-    this->game_objs.push_back(this->player_obj);
-    this->game_objs.push_back(this->enemy1);
+    // TheTextureManager::Instance()->load(LOAD_RESOURCE(running.png),
+    // "animate",
+    //                                     this->mainRenderer);
+    // this->game_obj = new Player(new LoaderParams(
+    //     0, 0, this->sprite_width, this->sprite_height, "animate"));
+    // this->player_obj = new Player(new LoaderParams(
+    //     600, 300, this->sprite_width, this->sprite_height, "animate"));
+    // this->enemy1 = new Enemy(new LoaderParams(600, 600, this->sprite_width,
+    //                                           this->sprite_height,
+    //                                           "animate"));
+    // this->game_objs.push_back(this->game_obj);
+    // this->game_objs.push_back(this->player_obj);
+    // this->game_objs.push_back(this->enemy1);
     this->game_running = true;
     this->current_game_state = GameStateEnum::MENU;
     this->game_state_machine = new GameStateMachine();
@@ -86,9 +88,11 @@ void Game::render() {
 void Game::update() { this->game_state_machine->update(); }
 
 void Game::draw() {
-    for (std::vector<GameObject *>::size_type i = 0; i != game_objs.size();
-         i++) {
-        game_objs[i]->draw();
+    if (!this->game_objs.empty()) {
+        for (std::vector<GameObject *>::size_type i = 0; i != game_objs.size();
+             i++) {
+            game_objs[i]->draw();
+        }
     }
 }
 

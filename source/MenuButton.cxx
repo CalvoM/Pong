@@ -2,8 +2,8 @@
 #include "../includes/InputHandler.hpp"
 #include <iostream>
 
-MenuButton::MenuButton(const LoaderParams *loader_params)
-    : GameObject(loader_params) {
+MenuButton::MenuButton(const LoaderParams *loader_params, void (*callback)())
+    : GameObject(loader_params), call_back(callback) {
     this->current_frame = button_state::MOUSE_OUT;
 }
 
@@ -17,9 +17,14 @@ void MenuButton::update() {
         this->current_frame = button_state::MOUSE_OVER;
         if (TheInputHandler::Instance()->get_mouse_button_state(
                 (size_t)mouse_buttons::LEFT)) {
-            std::cout << "Clicked" << std::endl;
             current_frame = button_state::CLICKED;
+            this->call_back();
+            this->button_released = false;
         }
+    } else if (!TheInputHandler::Instance()->get_mouse_button_state(
+                   (size_t)mouse_buttons::LEFT)) {
+        this->button_released = true;
+        this->current_frame = button_state::MOUSE_OVER;
     } else {
         this->current_frame = button_state::MOUSE_OUT;
     }

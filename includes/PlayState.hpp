@@ -1,7 +1,9 @@
 #ifndef PLAY_STATE_H
 #define PLAY_STATE_H
 
+#include "GameObject.hpp"
 #include "GameState.hpp"
+#include <vector>
 class PlayState : public GameState {
   public:
     virtual void update();
@@ -12,5 +14,6 @@ class PlayState : public GameState {
 
   private:
     static const std::string play_id;
+    std::vector<GameObject *> game_objects;
 };
 #endif

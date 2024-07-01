@@ -17,3 +17,8 @@ void Player::update() {
     GameObject::update();
 }
 void Player::clean() {}
+void Player::handle_input() {
+    Vector2D *target = TheInputHandler::Instance()->get_mouse_position();
+    this->velocity = *target - this->pos;
+    this->velocity /= 50;
+}

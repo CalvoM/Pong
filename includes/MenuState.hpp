@@ -14,6 +14,8 @@ class MenuState : public GameState {
 
   private:
     static const std::string menu_id;
+    static void menu_to_play();
+    static void exit_from_menu();
     std::vector<GameObject *> game_objects;
 };
 #endif

@@ -43,6 +43,7 @@ class Game {
     void handle_events();
     void update();
     bool is_running() { return this->game_running; }
+    GameStateMachine *get_state_machine() { return this->game_state_machine; }
     void draw();
     static Game *Instance() {
         if (_instance == nullptr) {

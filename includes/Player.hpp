@@ -7,5 +7,6 @@ class Player : public GameObject {
     void draw();
     void update();
     void clean();
+    void handle_input();
 };
 #endif

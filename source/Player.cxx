@@ -14,6 +14,7 @@ void Player::update() {
         this->velocity.setY(-2);
     if (TheInputHandler::Instance()->is_key_down(SDL_SCANCODE_DOWN))
         this->velocity.setY(2);
+    this->handle_input();
     GameObject::update();
 }
 void Player::clean() {}
